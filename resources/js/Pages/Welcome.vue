@@ -1,335 +1,1285 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
-
-defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
-    laravelVersion: {
-        type: String,
-        required: true,
-    },
-    phpVersion: {
-        type: String,
-        required: true,
-    },
-});
+import { Head, Link } from "@inertiajs/vue3";
 </script>
 
 <template>
-    <Head title="Welcome" />
+  <Head title="Welcome" />
 
-    <div
-        class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white"
-    >
-        <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
-            <Link
-                v-if="$page.props.auth.user"
-                :href="route('dashboard')"
-                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                >Dashboard</Link
+  <body
+    :class="{ 'overflow-hidden max-h-screen': mobileMenu }"
+    class="relative"
+    x-data="{ mobileMenu: false }">
+    <div id="main" class="relative">
+      <div
+        x-data="{
+        triggerNavItem(id) {
+            $scroll(id)
+        },
+        triggerMobileNavItem(id) {
+            mobileMenu=false;
+            this.triggerNavItem(id)
+        }}">
+        <div class="w-full z-50 top-0 py-3 sm:py-5 absolute">
+          <div class="container flex items-center justify-between">
+            <div>
+              <a href="/">
+                <img
+                  src="/assets/img/logo.svg"
+                  class="w-24 lg:w-48"
+                  alt="logo image"
+                />
+              </a>
+            </div>
+            <div class="hidden lg:block">
+              <ul class="flex items-center">
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#about')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >About</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#services')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >Services</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#portfolio')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >Portfolio</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#clients')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >Clients</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#work')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >Work</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#statistics')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >Statistics</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#blog')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >Blog</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+
+                <li class="group pl-6">
+                  <span
+                    @click="triggerNavItem('#contact')"
+                    class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                    >Contact</span
+                  >
+
+                  <span
+                    class="block h-0.5 w-full bg-transparent group-hover:bg-yellow"
+                  ></span>
+                </li>
+              </ul>
+            </div>
+            <div class="block lg:hidden">
+              <button @click="mobileMenu = true">
+                <i class="bx bx-menu text-4xl text-white"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="pointer-events-none fixed inset-0 z-70 min-h-screen bg-black bg-opacity-70 opacity-0 transition-opacity lg:hidden"
+          :class="{ 'opacity-100 pointer-events-auto': mobileMenu }"
+        >
+          <div
+            class="absolute right-0 min-h-screen w-2/3 bg-primary py-4 px-8 shadow md:w-1/3"
+          >
+            <button
+              class="absolute top-0 right-0 mt-4 mr-4"
+              @click="mobileMenu = false"
             >
-
-            <template v-else>
-                <Link
-                    :href="route('login')"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Log in</Link
+              <img
+                src="/assets/img/icon-close.svg"
+                class="h-10 w-auto"
+                alt=""
+              />
+            </button>
+            <ul class="mt-8 flex flex-col">
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#about')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >About</span
                 >
+              </li>
 
-                <Link
-                    v-if="canRegister"
-                    :href="route('register')"
-                    class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                    >Register</Link
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#services')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >Services</span
                 >
-            </template>
+              </li>
+
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#portfolio')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >Portfolio</span
+                >
+              </li>
+
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#clients')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >Clients</span
+                >
+              </li>
+
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#work')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >Work</span
+                >
+              </li>
+
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#statistics')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >Statistics</span
+                >
+              </li>
+
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#blog')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >Blog</span
+                >
+              </li>
+
+              <li class="py-2">
+                <span
+                  @click="triggerMobileNavItem('#contact')"
+                  class="cursor-pointer pt-0.5 font-header font-semibold uppercase text-white"
+                  >Contact</span
+                >
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div class="max-w-7xl mx-auto p-6 lg:p-8">
-            <div class="flex justify-center">
-                <svg
-                    viewBox="0 0 62 65"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-16 w-auto bg-gray-100 dark:bg-gray-900"
-                >
-                    <path
-                        d="M61.8548 14.6253C61.8778 14.7102 61.8895 14.7978 61.8897 14.8858V28.5615C61.8898 28.737 61.8434 28.9095 61.7554 29.0614C61.6675 29.2132 61.5409 29.3392 61.3887 29.4265L49.9104 36.0351V49.1337C49.9104 49.4902 49.7209 49.8192 49.4118 49.9987L25.4519 63.7916C25.3971 63.8227 25.3372 63.8427 25.2774 63.8639C25.255 63.8714 25.2338 63.8851 25.2101 63.8913C25.0426 63.9354 24.8666 63.9354 24.6991 63.8913C24.6716 63.8838 24.6467 63.8689 24.6205 63.8589C24.5657 63.8389 24.5084 63.8215 24.456 63.7916L0.501061 49.9987C0.348882 49.9113 0.222437 49.7853 0.134469 49.6334C0.0465019 49.4816 0.000120578 49.3092 0 49.1337L0 8.10652C0 8.01678 0.0124642 7.92953 0.0348998 7.84477C0.0423783 7.8161 0.0598282 7.78993 0.0697995 7.76126C0.0884958 7.70891 0.105946 7.65531 0.133367 7.6067C0.152063 7.5743 0.179485 7.54812 0.20192 7.51821C0.230588 7.47832 0.256763 7.43719 0.290416 7.40229C0.319084 7.37362 0.356476 7.35243 0.388883 7.32751C0.425029 7.29759 0.457436 7.26518 0.498568 7.2415L12.4779 0.345059C12.6296 0.257786 12.8015 0.211853 12.9765 0.211853C13.1515 0.211853 13.3234 0.257786 13.475 0.345059L25.4531 7.2415H25.4556C25.4955 7.26643 25.5292 7.29759 25.5653 7.32626C25.5977 7.35119 25.6339 7.37362 25.6625 7.40104C25.6974 7.43719 25.7224 7.47832 25.7523 7.51821C25.7735 7.54812 25.8021 7.5743 25.8196 7.6067C25.8483 7.65656 25.8645 7.70891 25.8844 7.76126C25.8944 7.78993 25.9118 7.8161 25.9193 7.84602C25.9423 7.93096 25.954 8.01853 25.9542 8.10652V33.7317L35.9355 27.9844V14.8846C35.9355 14.7973 35.948 14.7088 35.9704 14.6253C35.9792 14.5954 35.9954 14.5692 36.0053 14.5405C36.0253 14.4882 36.0427 14.4346 36.0702 14.386C36.0888 14.3536 36.1163 14.3274 36.1375 14.2975C36.1674 14.2576 36.1923 14.2165 36.2272 14.1816C36.2559 14.1529 36.292 14.1317 36.3244 14.1068C36.3618 14.0769 36.3942 14.0445 36.4341 14.0208L48.4147 7.12434C48.5663 7.03694 48.7383 6.99094 48.9133 6.99094C49.0883 6.99094 49.2602 7.03694 49.4118 7.12434L61.3899 14.0208C61.4323 14.0457 61.4647 14.0769 61.5021 14.1055C61.5333 14.1305 61.5694 14.1529 61.5981 14.1803C61.633 14.2165 61.6579 14.2576 61.6878 14.2975C61.7103 14.3274 61.7377 14.3536 61.7551 14.386C61.7838 14.4346 61.8 14.4882 61.8199 14.5405C61.8312 14.5692 61.8474 14.5954 61.8548 14.6253ZM59.893 27.9844V16.6121L55.7013 19.0252L49.9104 22.3593V33.7317L59.8942 27.9844H59.893ZM47.9149 48.5566V37.1768L42.2187 40.4299L25.953 49.7133V61.2003L47.9149 48.5566ZM1.99677 9.83281V48.5566L23.9562 61.199V49.7145L12.4841 43.2219L12.4804 43.2194L12.4754 43.2169C12.4368 43.1945 12.4044 43.1621 12.3682 43.1347C12.3371 43.1097 12.3009 43.0898 12.2735 43.0624L12.271 43.0586C12.2386 43.0275 12.2162 42.9888 12.1887 42.9539C12.1638 42.9203 12.1339 42.8916 12.114 42.8567L12.1127 42.853C12.0903 42.8156 12.0766 42.7707 12.0604 42.7283C12.0442 42.6909 12.023 42.656 12.013 42.6161C12.0005 42.5688 11.998 42.5177 11.9931 42.4691C11.9881 42.4317 11.9781 42.3943 11.9781 42.3569V15.5801L6.18848 12.2446L1.99677 9.83281ZM12.9777 2.36177L2.99764 8.10652L12.9752 13.8513L22.9541 8.10527L12.9752 2.36177H12.9777ZM18.1678 38.2138L23.9574 34.8809V9.83281L19.7657 12.2459L13.9749 15.5801V40.6281L18.1678 38.2138ZM48.9133 9.14105L38.9344 14.8858L48.9133 20.6305L58.8909 14.8846L48.9133 9.14105ZM47.9149 22.3593L42.124 19.0252L37.9323 16.6121V27.9844L43.7219 31.3174L47.9149 33.7317V22.3593ZM24.9533 47.987L39.59 39.631L46.9065 35.4555L36.9352 29.7145L25.4544 36.3242L14.9907 42.3482L24.9533 47.987Z"
-                        fill="#FF2D20"
-                    />
-                </svg>
-            </div>
+        <div>
+          <div
+            class="relative bg-cover bg-center bg-no-repeat py-8"
+            style="background-image: url(/assets/img/bg-hero.jpg)"
+          >
+            <div
+              class="absolute inset-0 z-20 bg-gradient-to-r from-hero-gradient-from to-hero-gradient-to bg-cover bg-center bg-no-repeat"
+            ></div>
 
-            <div class="mt-16">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                    <a
-                        href="https://laravel.com/docs"
-                        class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
-                    >
-                        <div>
-                            <div
-                                class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    class="w-7 h-7 stroke-red-500"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
-                                    />
-                                </svg>
-                            </div>
-
-                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Documentation</h2>
-
-                            <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                Laravel has wonderful documentation covering every aspect of the framework. Whether you
-                                are a newcomer or have prior experience with Laravel, we recommend reading our
-                                documentation from beginning to end.
-                            </p>
-                        </div>
-
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                            />
-                        </svg>
-                    </a>
-
-                    <a
-                        href="https://laracasts.com"
-                        class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
-                    >
-                        <div>
-                            <div
-                                class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    class="w-7 h-7 stroke-red-500"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
-                                    />
-                                </svg>
-                            </div>
-
-                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laracasts</h2>
-
-                            <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript
-                                development. Check them out, see for yourself, and massively level up your development
-                                skills in the process.
-                            </p>
-                        </div>
-
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                            />
-                        </svg>
-                    </a>
-
-                    <a
-                        href="https://laravel-news.com"
-                        class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
-                    >
-                        <div>
-                            <div
-                                class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    class="w-7 h-7 stroke-red-500"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"
-                                    />
-                                </svg>
-                            </div>
-
-                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Laravel News</h2>
-
-                            <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                Laravel News is a community driven portal and newsletter aggregating all of the latest
-                                and most important news in the Laravel ecosystem, including new package releases and
-                                tutorials.
-                            </p>
-                        </div>
-
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            class="self-center shrink-0 stroke-red-500 w-6 h-6 mx-6"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
-                            />
-                        </svg>
-                    </a>
-
+            <div
+              class="container relative z-30 pt-20 pb-12 sm:pt-56 sm:pb-48 lg:pt-64 lg:pb-48"
+            >
+              <div
+                class="flex flex-col items-center justify-center lg:flex-row"
+              >
+                <div class="rounded-full border-8 border-primary shadow-xl">
+                  <img
+                    src="/assets/img/blog-author.jpg"
+                    class="h-48 rounded-full sm:h-56"
+                    alt="author"
+                  />
+                </div>
+                <div class="pt-8 sm:pt-10 lg:pl-8 lg:pt-0">
+                  <h1
+                    class="text-center font-header text-4xl text-white sm:text-left sm:text-5xl md:text-6xl"
+                  >
+                    Hello I'm Christy Smith!
+                  </h1>
+                  <div
+                    class="flex flex-col justify-center pt-3 sm:flex-row sm:pt-5 lg:justify-start"
+                  >
                     <div
-                        class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500"
+                      class="flex items-center justify-center pl-0 sm:justify-start md:pl-1"
                     >
-                        <div>
-                            <div
-                                class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    class="w-7 h-7 stroke-red-500"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M6.115 5.19l.319 1.913A6 6 0 008.11 10.36L9.75 12l-.387.775c-.217.433-.132.956.21 1.298l1.348 1.348c.21.21.329.497.329.795v1.089c0 .426.24.815.622 1.006l.153.076c.433.217.956.132 1.298-.21l.723-.723a8.7 8.7 0 002.288-4.042 1.087 1.087 0 00-.358-1.099l-1.33-1.108c-.251-.21-.582-.299-.905-.245l-1.17.195a1.125 1.125 0 01-.98-.314l-.295-.295a1.125 1.125 0 010-1.591l.13-.132a1.125 1.125 0 011.3-.21l.603.302a.809.809 0 001.086-1.086L14.25 7.5l1.256-.837a4.5 4.5 0 001.528-1.732l.146-.292M6.115 5.19A9 9 0 1017.18 4.64M6.115 5.19A8.965 8.965 0 0112 3c1.929 0 3.716.607 5.18 1.64"
-                                    />
-                                </svg>
-                            </div>
-
-                            <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Vibrant Ecosystem</h2>
-
-                            <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                Laravel's robust library of first-party tools and libraries, such as
-                                <a
-                                    href="https://forge.laravel.com"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Forge</a
-                                >,
-                                <a
-                                    href="https://vapor.laravel.com"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Vapor</a
-                                >,
-                                <a
-                                    href="https://nova.laravel.com"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Nova</a
-                                >, and
-                                <a
-                                    href="https://envoyer.io"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Envoyer</a
-                                >
-                                help you take your projects to the next level. Pair them with powerful open source
-                                libraries like
-                                <a
-                                    href="https://laravel.com/docs/billing"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Cashier</a
-                                >,
-                                <a
-                                    href="https://laravel.com/docs/dusk"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Dusk</a
-                                >,
-                                <a
-                                    href="https://laravel.com/docs/broadcasting"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Echo</a
-                                >,
-                                <a
-                                    href="https://laravel.com/docs/horizon"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Horizon</a
-                                >,
-                                <a
-                                    href="https://laravel.com/docs/sanctum"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Sanctum</a
-                                >,
-                                <a
-                                    href="https://laravel.com/docs/telescope"
-                                    class="underline hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                                    >Telescope</a
-                                >, and more.
-                            </p>
-                        </div>
+                      <p class="font-body text-lg uppercase text-white">
+                        Let's connect
+                      </p>
+                      <div class="hidden sm:block">
+                        <i class="bx bx-chevron-right text-3xl text-yellow"></i>
+                      </div>
                     </div>
+                    <div
+                      class="flex items-center justify-center pt-5 pl-2 sm:justify-start sm:pt-0"
+                    >
+                      <a href="/">
+                        <i
+                          class="bx bxl-facebook-square text-2xl text-white hover:text-yellow"
+                        ></i>
+                      </a>
+                      <a href="/" class="pl-4">
+                        <i
+                          class="bx bxl-twitter text-2xl text-white hover:text-yellow"
+                        ></i>
+                      </a>
+                      <a href="/" class="pl-4">
+                        <i
+                          class="bx bxl-dribbble text-2xl text-white hover:text-yellow"
+                        ></i>
+                      </a>
+                      <a href="/" class="pl-4">
+                        <i
+                          class="bx bxl-linkedin text-2xl text-white hover:text-yellow"
+                        ></i>
+                      </a>
+                      <a href="/" class="pl-4">
+                        <i
+                          class="bx bxl-instagram text-2xl text-white hover:text-yellow"
+                        ></i>
+                      </a>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
+          </div>
 
-            <div class="flex justify-center mt-16 px-6 sm:items-center sm:justify-between">
-                <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
-                    <div class="flex items-center gap-4">
-                        <a
-                            href="https://github.com/sponsors/taylorotwell"
-                            class="group inline-flex items-center hover:text-gray-700 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+          <div class="bg-grey-50" id="about">
+            <div
+              class="container flex flex-col items-center py-16 md:py-20 lg:flex-row"
+            >
+              <div class="w-full text-center sm:w-3/4 lg:w-3/5 lg:text-left">
+                <h2
+                  class="font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl"
+                >
+                  Who am I?
+                </h2>
+                <h4
+                  class="pt-6 font-header text-xl font-medium text-black sm:text-2xl lg:text-3xl"
+                >
+                  I'm Christy Smith, a Web Designer &amp; Photographer
+                </h4>
+                <p class="pt-6 font-body leading-relaxed text-grey-20">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+                <div
+                  class="flex flex-col justify-center pt-6 sm:flex-row lg:justify-start"
+                >
+                  <div
+                    class="flex items-center justify-center sm:justify-start"
+                  >
+                    <p
+                      class="font-body text-lg font-semibold uppercase text-grey-20"
+                    >
+                      Connect with me
+                    </p>
+                    <div class="hidden sm:block">
+                      <i class="bx bx-chevron-right text-2xl text-primary"></i>
+                    </div>
+                  </div>
+                  <div
+                    class="flex items-center justify-center pt-5 pl-2 sm:justify-start sm:pt-0"
+                  >
+                    <a href="/">
+                      <i
+                        class="bx bxl-facebook-square text-2xl text-primary hover:text-yellow"
+                      ></i>
+                    </a>
+                    <a href="/" class="pl-4">
+                      <i
+                        class="bx bxl-twitter text-2xl text-primary hover:text-yellow"
+                      ></i>
+                    </a>
+                    <a href="/" class="pl-4">
+                      <i
+                        class="bx bxl-dribbble text-2xl text-primary hover:text-yellow"
+                      ></i>
+                    </a>
+                    <a href="/" class="pl-4">
+                      <i
+                        class="bx bxl-linkedin text-2xl text-primary hover:text-yellow"
+                      ></i>
+                    </a>
+                    <a href="/" class="pl-4">
+                      <i
+                        class="bx bxl-instagram text-2xl text-primary hover:text-yellow"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full pl-0 pt-10 sm:w-3/4 lg:w-2/5 lg:pl-12 lg:pt-0">
+                <div>
+                  <div class="flex items-end justify-between">
+                    <h4 class="font-body font-semibold uppercase text-black">
+                      HTML &amp; CSS
+                    </h4>
+                    <h3 class="font-body text-3xl font-bold text-primary">
+                      85%
+                    </h3>
+                  </div>
+                  <div class="mt-2 h-3 w-full rounded-full bg-lila">
+                    <div
+                      class="h-3 rounded-full bg-primary"
+                      style="width: 85%"
+                    ></div>
+                  </div>
+                </div>
+                <div class="pt-6">
+                  <div class="flex items-end justify-between">
+                    <h4 class="font-body font-semibold uppercase text-black">
+                      Python
+                    </h4>
+                    <h3 class="font-body text-3xl font-bold text-primary">
+                      70%
+                    </h3>
+                  </div>
+                  <div class="mt-2 h-3 w-full rounded-full bg-lila">
+                    <div
+                      class="h-3 rounded-full bg-primary"
+                      style="width: 70%"
+                    ></div>
+                  </div>
+                </div>
+                <div class="pt-6">
+                  <div class="flex items-end justify-between">
+                    <h4 class="font-body font-semibold uppercase text-black">
+                      Javascript
+                    </h4>
+                    <h3 class="font-body text-3xl font-bold text-primary">
+                      98%
+                    </h3>
+                  </div>
+                  <div class="mt-2 h-3 w-full rounded-full bg-lila">
+                    <div
+                      class="h-3 rounded-full bg-primary"
+                      style="width: 98%"
+                    ></div>
+                  </div>
+                </div>
+                <div class="pt-6">
+                  <div class="flex items-end justify-between">
+                    <h4 class="font-body font-semibold uppercase text-black">
+                      Figma
+                    </h4>
+                    <h3 class="font-body text-3xl font-bold text-primary">
+                      91%
+                    </h3>
+                  </div>
+                  <div class="mt-2 h-3 w-full rounded-full bg-lila">
+                    <div
+                      class="h-3 rounded-full bg-primary"
+                      style="width: 91%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container py-16 md:py-20" id="services">
+            <h2
+              class="text-center font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl"
+            >
+              Here's what I'm good at
+            </h2>
+            <h3
+              class="pt-6 text-center font-header text-xl font-medium text-black sm:text-2xl lg:text-3xl"
+            >
+              These are the services Ioffer
+            </h3>
+
+            <div
+              class="grid grid-cols-1 gap-6 pt-10 sm:grid-cols-2 md:gap-10 md:pt-12 lg:grid-cols-3"
+            >
+              <div class="group rounded px-8 py-12 shadow hover:bg-primary">
+                <div class="mx-auto h-24 w-24 text-center xl:h-28 xl:w-28">
+                  <div class="hidden group-hover:block">
+                    <img
+                      src="/assets/img/icon-development-white.svg"
+                      alt="development icon"
+                    />
+                  </div>
+                  <div class="block group-hover:hidden">
+                    <img
+                      src="/assets/img/icon-development-black.svg"
+                      alt="development icon"
+                    />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <h3
+                    class="pt-8 text-lg font-semibold uppercase text-primary group-hover:text-yellow lg:text-xl"
+                  >
+                    WEB DEVELOPMENT
+                  </h3>
+                  <p
+                    class="text-grey pt-4 text-sm group-hover:text-white md:text-base"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                </div>
+              </div>
+              <div class="group rounded px-8 py-12 shadow hover:bg-primary">
+                <div class="mx-auto h-24 w-24 text-center xl:h-28 xl:w-28">
+                  <div class="hidden group-hover:block">
+                    <img
+                      src="/assets/img/icon-content-white.svg"
+                      alt="content marketing icon"
+                    />
+                  </div>
+                  <div class="block group-hover:hidden">
+                    <img
+                      src="/assets/img/icon-content-black.svg"
+                      alt="content marketing icon"
+                    />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <h3
+                    class="pt-8 text-lg font-semibold uppercase text-primary group-hover:text-yellow lg:text-xl"
+                  >
+                    Technical Writing
+                  </h3>
+                  <p
+                    class="text-grey pt-4 text-sm group-hover:text-white md:text-base"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                </div>
+              </div>
+              <div class="group rounded px-8 py-12 shadow hover:bg-primary">
+                <div class="mx-auto h-24 w-24 text-center xl:h-28 xl:w-28">
+                  <div class="hidden group-hover:block">
+                    <img
+                      src="/assets/img/icon-mobile-white.svg"
+                      alt="Mobile Application icon"
+                    />
+                  </div>
+                  <div class="block group-hover:hidden">
+                    <img
+                      src="/assets/img/icon-mobile-black.svg"
+                      alt="Mobile Application icon"
+                    />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <h3
+                    class="pt-8 text-lg font-semibold uppercase text-primary group-hover:text-yellow lg:text-xl"
+                  >
+                    Mobile Development
+                  </h3>
+                  <p
+                    class="text-grey pt-4 text-sm group-hover:text-white md:text-base"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                </div>
+              </div>
+              <div class="group rounded px-8 py-12 shadow hover:bg-primary">
+                <div class="mx-auto h-24 w-24 text-center xl:h-28 xl:w-28">
+                  <div class="hidden group-hover:block">
+                    <img
+                      src="/assets/img/icon-email-white.svg"
+                      alt="Email Marketing icon"
+                    />
+                  </div>
+                  <div class="block group-hover:hidden">
+                    <img
+                      src="/assets/img/icon-email-black.svg"
+                      alt="Email Marketing icon"
+                    />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <h3
+                    class="pt-8 text-lg font-semibold uppercase text-primary group-hover:text-yellow lg:text-xl"
+                  >
+                    Email Development
+                  </h3>
+                  <p
+                    class="text-grey pt-4 text-sm group-hover:text-white md:text-base"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                </div>
+              </div>
+              <div class="group rounded px-8 py-12 shadow hover:bg-primary">
+                <div class="mx-auto h-24 w-24 text-center xl:h-28 xl:w-28">
+                  <div class="hidden group-hover:block">
+                    <img
+                      src="/assets/img/icon-design-white.svg"
+                      alt="Theme Design icon"
+                    />
+                  </div>
+                  <div class="block group-hover:hidden">
+                    <img
+                      src="/assets/img/icon-design-black.svg"
+                      alt="Theme Design icon"
+                    />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <h3
+                    class="pt-8 text-lg font-semibold uppercase text-primary group-hover:text-yellow lg:text-xl"
+                  >
+                    Graphic Design
+                  </h3>
+                  <p
+                    class="text-grey pt-4 text-sm group-hover:text-white md:text-base"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                </div>
+              </div>
+              <div class="group rounded px-8 py-12 shadow hover:bg-primary">
+                <div class="mx-auto h-24 w-24 text-center xl:h-28 xl:w-28">
+                  <div class="hidden group-hover:block">
+                    <img
+                      src="/assets/img/icon-graphics-white.svg"
+                      alt="Graphic Design icon"
+                    />
+                  </div>
+                  <div class="block group-hover:hidden">
+                    <img
+                      src="/assets/img/icon-graphics-black.svg"
+                      alt="Graphic Design icon"
+                    />
+                  </div>
+                </div>
+                <div class="text-center">
+                  <h3
+                    class="pt-8 text-lg font-semibold uppercase text-primary group-hover:text-yellow lg:text-xl"
+                  >
+                    Web Design
+                  </h3>
+                  <p
+                    class="text-grey pt-4 text-sm group-hover:text-white md:text-base"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container py-16 md:py-20" id="portfolio">
+            <h2
+              class="text-center font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl"
+            >
+              Check out my Portfolio
+            </h2>
+            <h3
+              class="pt-6 text-center font-header text-xl font-medium text-black sm:text-2xl lg:text-3xl"
+            >
+              Here's what I have done with the past
+            </h3>
+
+            <div
+              class="mx-auto grid w-full grid-cols-1 gap-8 pt-12 sm:w-3/4 md:gap-10 lg:w-full lg:grid-cols-2"
+            >
+              <a
+                href="/"
+                class="mx-auto transform transition-all hover:scale-105 md:mx-0"
+              >
+                <img
+                  src="/assets/img/portfolio-apple.jpeg"
+                  class="w-full shadow"
+                  alt="portfolio image"
+                />
+              </a>
+              <a
+                href="/"
+                class="mx-auto transform transition-all hover:scale-105 md:mx-0"
+              >
+                <img
+                  src="/assets/img/portfolio-stripe.jpeg"
+                  class="w-full shadow"
+                  alt="portfolio image"
+                />
+              </a>
+              <a
+                href="/"
+                class="mx-auto transform transition-all hover:scale-105 md:mx-0"
+              >
+                <img
+                  src="/assets/img/portfolio-fedex.jpeg"
+                  class="w-full shadow"
+                  alt="portfolio image"
+                />
+              </a>
+              <a
+                href="/"
+                class="mx-auto transform transition-all hover:scale-105 md:mx-0"
+              >
+                <img
+                  src="/assets/img/portfolio-microsoft.jpeg"
+                  class="w-full shadow"
+                  alt="portfolio image"
+                />
+              </a>
+            </div>
+          </div>
+
+          <div class="bg-grey-50" id="clients">
+            <div class="container py-16 md:py-20">
+              <div class="mx-auto w-full sm:w-3/4 lg:w-full">
+                <h2
+                  class="text-center font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl"
+                >
+                  My latest clients
+                </h2>
+                <div
+                  class="flex flex-wrap items-center justify-center pt-4 sm:pt-4"
+                >
+                  <span class="m-8 block">
+                    <img
+                      src="/assets/img/logo-coca-cola.svg"
+                      alt="client logo"
+                      class="mx-auto block h-12 w-auto"
+                    />
+                  </span>
+                  <span class="m-8 block">
+                    <img
+                      src="/assets/img/logo-apple.svg"
+                      alt="client logo"
+                      class="mx-auto block h-12 w-auto"
+                    />
+                  </span>
+
+                  <span class="m-8 block">
+                    <img
+                      src="/assets/img/logo-netflix.svg"
+                      alt="client logo"
+                      class="mx-auto block h-12 w-auto"
+                    />
+                  </span>
+
+                  <span class="m-8 block">
+                    <img
+                      src="/assets/img/logo-amazon.svg"
+                      alt="client logo"
+                      class="mx-auto block h-12 w-auto"
+                    />
+                  </span>
+
+                  <span class="m-8 block">
+                    <img
+                      src="/assets/img/logo-stripe.svg"
+                      alt="client logo"
+                      class="mx-auto block h-12 w-auto"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container py-16 md:py-20" id="work">
+            <h2
+              class="text-center font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl"
+            >
+              My work experience
+            </h2>
+            <h3
+              class="pt-6 text-center font-header text-xl font-medium text-black sm:text-2xl lg:text-3xl"
+            >
+              Here's what I did before freelancing
+            </h3>
+
+            <div class="relative mx-auto mt-12 flex w-full flex-col lg:w-2/3">
+              <span
+                class="left-2/5 absolute inset-y-0 ml-10 hidden w-0.5 bg-grey-40 md:block"
+              ></span>
+
+              <div
+                class="mt-8 flex flex-col text-center md:flex-row md:text-left"
+              >
+                <div class="md:w-2/5">
+                  <div class="flex justify-center md:justify-start">
+                    <span class="shrink-0">
+                      <img
+                        src="/assets/img/logo-spotify.svg"
+                        class="h-auto w-32"
+                        alt="company logo"
+                      />
+                    </span>
+                    <div class="relative ml-3 hidden w-full md:block">
+                      <span
+                        class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 transform bg-grey-70"
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="md:w-3/5">
+                  <div class="relative flex md:pl-18">
+                    <span
+                      class="absolute left-8 top-1 hidden h-4 w-4 rounded-full border-2 border-grey-40 bg-white md:block"
+                    ></span>
+
+                    <div class="mt-1 flex">
+                      <i
+                        class="bx bxs-right-arrow hidden text-primary md:block"
+                      ></i>
+                      <div class="md:-mt-1 md:pl-8">
+                        <span class="block font-body font-bold text-grey-40"
+                          >Apr 2015 - Mar 2018</span
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                class="-mt-px mr-1 w-5 h-5 stroke-gray-400 dark:stroke-gray-600 group-hover:stroke-gray-600 dark:group-hover:stroke-gray-400"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                                />
-                            </svg>
-                            Sponsor
-                        </a>
+                        <span
+                          class="block pt-2 font-header text-xl font-bold uppercase text-primary"
+                          >Frontend Developer</span
+                        >
+                        <div class="pt-2">
+                          <span class="block font-body text-black"
+                            >Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Vestibulum mattis felis vitae risus pulvinar
+                            tincidunt. Nam ac venenatis enim.</span
+                          >
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
+              <div
+                class="mt-8 flex flex-col text-center md:flex-row md:text-left"
+              >
+                <div class="md:w-2/5">
+                  <div class="flex justify-center md:justify-start">
+                    <span class="shrink-0">
+                      <img
+                        src="/assets/img/logo-microsoft.svg"
+                        class="h-auto w-32"
+                        alt="company logo"
+                      />
+                    </span>
+                    <div class="relative ml-3 hidden w-full md:block">
+                      <span
+                        class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 transform bg-grey-70"
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="md:w-3/5">
+                  <div class="relative flex md:pl-18">
+                    <span
+                      class="absolute left-8 top-1 hidden h-4 w-4 rounded-full border-2 border-grey-40 bg-white md:block"
+                    ></span>
 
-                <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                    Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
+                    <div class="mt-1 flex">
+                      <i
+                        class="bx bxs-right-arrow hidden text-primary md:block"
+                      ></i>
+                      <div class="md:-mt-1 md:pl-8">
+                        <span class="block font-body font-bold text-grey-40"
+                          >Mar 2018 - September 2019</span
+                        >
+                        <span
+                          class="block pt-2 font-header text-xl font-bold uppercase text-primary"
+                          >Software Engineer</span
+                        >
+                        <div class="pt-2">
+                          <span class="block font-body text-black"
+                            >Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Vestibulum mattis felis vitae risus pulvinar
+                            tincidunt. Nam ac venenatis enim.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div
+                class="mt-8 flex flex-col text-center md:flex-row md:text-left"
+              >
+                <div class="md:w-2/5">
+                  <div class="flex justify-center md:justify-start">
+                    <span class="shrink-0">
+                      <img
+                        src="/assets/img/logo-fedex.svg"
+                        class="h-auto w-32"
+                        alt="company logo"
+                      />
+                    </span>
+                    <div class="relative ml-3 hidden w-full md:block">
+                      <span
+                        class="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 transform bg-grey-70"
+                      ></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="md:w-3/5">
+                  <div class="relative flex md:pl-18">
+                    <span
+                      class="absolute left-8 top-1 hidden h-4 w-4 rounded-full border-2 border-grey-40 bg-white md:block"
+                    ></span>
+
+                    <div class="mt-1 flex">
+                      <i
+                        class="bx bxs-right-arrow hidden text-primary md:block"
+                      ></i>
+                      <div class="md:-mt-1 md:pl-8">
+                        <span class="block font-body font-bold text-grey-40"
+                          >October 2019 - Feb 2021</span
+                        >
+                        <span
+                          class="block pt-2 font-header text-xl font-bold uppercase text-primary"
+                          >DevOps Engineer</span
+                        >
+                        <div class="pt-2">
+                          <span class="block font-body text-black"
+                            >Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Vestibulum mattis felis vitae risus pulvinar
+                            tincidunt. Nam ac venenatis enim.</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <div
+            class="bg-cover bg-top bg-no-repeat pb-16 md:py-16 lg:py-24"
+            style="background-image: url(/assets/img/experience-figure.png)"
+            id="statistics"
+          >
+            <div class="container">
+              <div
+                class="mx-auto w-5/6 bg-white py-16 shadow md:w-11/12 lg:py-20 xl:py-24 2xl:w-full"
+              >
+                <div
+                  class="grid grid-cols-2 gap-5 md:gap-8 xl:grid-cols-4 xl:gap-5"
+                >
+                  <div
+                    class="flex flex-col items-center justify-center text-center md:flex-row md:text-left"
+                  >
+                    <div>
+                      <img
+                        src="/assets/img/icon-project.svg"
+                        class="mx-auto h-12 w-auto md:h-20"
+                        alt="icon project"
+                      />
+                    </div>
+                    <div class="pt-5 md:pl-5 md:pt-0">
+                      <h1
+                        class="font-body text-2xl font-bold text-primary md:text-4xl"
+                      >
+                        12
+                      </h1>
+                      <h4
+                        class="text-grey-dark font-header text-base font-medium leading-loose md:text-xl"
+                      >
+                        Finished Projects
+                      </h4>
+                    </div>
+                  </div>
+
+                  <div
+                    class="flex flex-col items-center justify-center text-center md:flex-row md:text-left"
+                  >
+                    <div>
+                      <img
+                        src="/assets/img/icon-award.svg"
+                        class="mx-auto h-12 w-auto md:h-20"
+                        alt="icon award"
+                      />
+                    </div>
+                    <div class="pt-5 md:pl-5 md:pt-0">
+                      <h1
+                        class="font-body text-2xl font-bold text-primary md:text-4xl"
+                      >
+                        3
+                      </h1>
+                      <h4
+                        class="text-grey-dark font-header text-base font-medium leading-loose md:text-xl"
+                      >
+                        Awards Won
+                      </h4>
+                    </div>
+                  </div>
+
+                  <div
+                    class="mt-6 flex flex-col items-center justify-center text-center md:mt-10 md:flex-row md:text-left lg:mt-0"
+                  >
+                    <div>
+                      <img
+                        src="/assets/img/icon-happy.svg"
+                        class="mx-auto h-12 w-auto md:h-20"
+                        alt="icon happy clients"
+                      />
+                    </div>
+                    <div class="pt-5 md:pl-5 md:pt-0">
+                      <h1
+                        class="font-body text-2xl font-bold text-primary md:text-4xl"
+                      >
+                        8
+                      </h1>
+                      <h4
+                        class="text-grey-dark font-header text-base font-medium leading-loose md:text-xl"
+                      >
+                        Happy Clients
+                      </h4>
+                    </div>
+                  </div>
+
+                  <div
+                    class="mt-6 flex flex-col items-center justify-center text-center md:mt-10 md:flex-row md:text-left lg:mt-0"
+                  >
+                    <div>
+                      <img
+                        src="/assets/img/icon-puzzle.svg"
+                        class="mx-auto h-12 w-auto md:h-20"
+                        alt="icon puzzle"
+                      />
+                    </div>
+                    <div class="pt-5 md:pl-5 md:pt-0">
+                      <h1
+                        class="font-body text-2xl font-bold text-primary md:text-4xl"
+                      >
+                        99
+                      </h1>
+                      <h4
+                        class="text-grey-dark font-header text-base font-medium leading-loose md:text-xl"
+                      >
+                        Bugs Fixed
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-grey-50" id="blog">
+            <div class="container py-16 md:py-20">
+              <h2
+                class="text-center font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl"
+              >
+                I also like to write
+              </h2>
+              <h4
+                class="pt-6 text-center font-header text-xl font-medium text-black sm:text-2xl lg:text-3xl"
+              >
+                Check out my latest posts!
+              </h4>
+              <div
+                class="mx-auto grid w-full grid-cols-1 gap-6 pt-12 sm:w-3/4 lg:w-full lg:grid-cols-3 xl:gap-10"
+              >
+                <a href="/post" class="shadow">
+                  <div
+                    style="background-image: url(/assets/img/post-01.png)"
+                    class="group relative h-72 bg-cover bg-center bg-no-repeat sm:h-84 lg:h-64 xl:h-72"
+                  >
+                    <span
+                      class="absolute inset-0 block bg-gradient-to-b from-blog-gradient-from to-blog-gradient-to bg-cover bg-center bg-no-repeat opacity-10 transition-opacity group-hover:opacity-50"
+                    ></span>
+                    <span
+                      class="absolute right-0 bottom-0 mr-4 mb-4 block rounded-full border-2 border-white px-6 py-2 text-center font-body text-sm font-bold uppercase text-white md:text-base"
+                      >Read More</span
+                    >
+                  </div>
+                  <div class="bg-white py-6 px-5 xl:py-8">
+                    <span
+                      class="block font-body text-lg font-semibold text-black"
+                      >How to become a frontend developer</span
+                    >
+                    <span class="block pt-2 font-body text-grey-20"
+                      >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.</span
+                    >
+                  </div>
+                </a>
+                <a href="/post" class="shadow">
+                  <div
+                    style="background-image: url(/assets/img/post-02.png)"
+                    class="group relative h-72 bg-cover bg-center bg-no-repeat sm:h-84 lg:h-64 xl:h-72"
+                  >
+                    <span
+                      class="absolute inset-0 block bg-gradient-to-b from-blog-gradient-from to-blog-gradient-to bg-cover bg-center bg-no-repeat opacity-10 transition-opacity group-hover:opacity-50"
+                    ></span>
+                    <span
+                      class="absolute right-0 bottom-0 mr-4 mb-4 block rounded-full border-2 border-white px-6 py-2 text-center font-body text-sm font-bold uppercase text-white md:text-base"
+                      >Read More</span
+                    >
+                  </div>
+                  <div class="bg-white py-6 px-5 xl:py-8">
+                    <span
+                      class="block font-body text-lg font-semibold text-black"
+                      >My personal productivity system</span
+                    >
+                    <span class="block pt-2 font-body text-grey-20"
+                      >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.</span
+                    >
+                  </div>
+                </a>
+                <a href="/post" class="shadow">
+                  <div
+                    style="background-image: url(/assets/img/post-03.png)"
+                    class="group relative h-72 bg-cover bg-center bg-no-repeat sm:h-84 lg:h-64 xl:h-72"
+                  >
+                    <span
+                      class="absolute inset-0 block bg-gradient-to-b from-blog-gradient-from to-blog-gradient-to bg-cover bg-center bg-no-repeat opacity-10 transition-opacity group-hover:opacity-50"
+                    ></span>
+                    <span
+                      class="absolute right-0 bottom-0 mr-4 mb-4 block rounded-full border-2 border-white px-6 py-2 text-center font-body text-sm font-bold uppercase text-white md:text-base"
+                      >Read More</span
+                    >
+                  </div>
+                  <div class="bg-white py-6 px-5 xl:py-8">
+                    <span
+                      class="block font-body text-lg font-semibold text-black"
+                      >My year in review 2020</span
+                    >
+                    <span class="block pt-2 font-body text-grey-20"
+                      >Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.</span
+                    >
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="container py-16 md:py-20" id="contact">
+            <h2
+              class="text-center font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl"
+            >
+              Here's a contact form
+            </h2>
+            <h4
+              class="pt-6 text-center font-header text-xl font-medium text-black sm:text-2xl lg:text-3xl"
+            >
+              Have Any Questions?
+            </h4>
+            <div class="mx-auto w-full pt-5 text-center sm:w-2/3 lg:pt-6">
+              <p class="font-body text-grey-10">
+                Lorem ipsum dolor sit amet consectetur adipiscing elit hendrerit
+                condimentum turpis nisl sem, viverra habitasse urna ante
+                lobortis fermentum accumsan. Viverra habitasse urna ante
+                lobortis fermentum accumsan.
+              </p>
+            </div>
+            <form class="mx-auto w-full pt-10 sm:w-3/4">
+              <div class="flex flex-col md:flex-row">
+                <input
+                  class="mr-3 w-full rounded border-grey-50 px-4 py-3 font-body text-black md:w-1/2 lg:mr-5"
+                  placeholder="Name"
+                  type="text"
+                  id="name"
+                />
+                <input
+                  class="mt-6 w-full rounded border-grey-50 px-4 py-3 font-body text-black md:mt-0 md:ml-3 md:w-1/2 lg:ml-5"
+                  placeholder="Email"
+                  type="text"
+                  id="email"
+                />
+              </div>
+              <textarea
+                class="mt-6 w-full rounded border-grey-50 px-4 py-3 font-body text-black md:mt-8"
+                placeholder="Message"
+                id="message"
+                cols="30"
+                rows="10"
+              ></textarea>
+              <button
+                class="mt-6 flex items-center justify-center rounded bg-primary px-8 py-3 font-header text-lg font-bold uppercase text-white hover:bg-grey-20"
+              >
+                Send
+                <i class="bx bx-chevron-right relative -right-2 text-3xl"></i>
+              </button>
+            </form>
+            <div class="flex flex-col pt-16 lg:flex-row">
+              <div
+                class="w-full border-l-2 border-t-2 border-r-2 border-b-2 border-grey-60 px-6 py-6 sm:py-8 lg:w-1/3"
+              >
+                <div class="flex items-center">
+                  <i class="bx bx-phone text-2xl text-grey-40"></i>
+                  <p
+                    class="pl-2 font-body font-bold uppercase text-grey-40 lg:text-lg"
+                  >
+                    My Phone
+                  </p>
+                </div>
+                <p
+                  class="pt-2 text-left font-body font-bold text-primary lg:text-lg"
+                >
+                  (+881) 111 222 333
+                </p>
+              </div>
+              <div
+                class="w-full border-l-2 border-t-0 border-r-2 border-b-2 border-grey-60 px-6 py-6 sm:py-8 lg:w-1/3 lg:border-l-0 lg:border-t-2"
+              >
+                <div class="flex items-center">
+                  <i class="bx bx-envelope text-2xl text-grey-40"></i>
+                  <p
+                    class="pl-2 font-body font-bold uppercase text-grey-40 lg:text-lg"
+                  >
+                    My Email
+                  </p>
+                </div>
+                <p
+                  class="pt-2 text-left font-body font-bold text-primary lg:text-lg"
+                >
+                  name@mydomain.com
+                </p>
+              </div>
+              <div
+                class="w-full border-l-2 border-t-0 border-r-2 border-b-2 border-grey-60 px-6 py-6 sm:py-8 lg:w-1/3 lg:border-l-0 lg:border-t-2"
+              >
+                <div class="flex items-center">
+                  <i class="bx bx-map text-2xl text-grey-40"></i>
+                  <p
+                    class="pl-2 font-body font-bold uppercase text-grey-40 lg:text-lg"
+                  >
+                    My Address
+                  </p>
+                </div>
+                <p
+                  class="pt-2 text-left font-body font-bold text-primary lg:text-lg"
+                >
+                  123 New York D Block 1100, 2011 USA
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="relative bg-primary bg-cover bg-center bg-no-repeat py-16 bg-blend-multiply lg:py-24"
+            style="background-image: url(/assets/img/bg-cta.jpg)"
+          >
+            <div class="container relative z-30">
+              <h3
+                class="text-center font-header text-3xl uppercase leading-tight tracking-wide text-white sm:text-4xl lg:text-5xl"
+              >
+                Keep <span class="font-bold">up-to-date</span> <br />
+                with what I'm up to
+              </h3>
+              <form class="mt-6 flex flex-col justify-center sm:flex-row">
+                <input
+                  class="w-full rounded px-4 py-3 font-body text-black sm:w-2/5 sm:py-4 lg:w-1/3"
+                  type="text"
+                  id="email"
+                  placeholder="Give me your Email"
+                />
+                <button
+                  class="mt-2 rounded bg-yellow px-8 py-3 font-body text-base font-bold uppercase text-primary transition-colors hover:bg-primary hover:text-white focus:border-transparent focus:outline-none focus:ring focus:ring-yellow sm:ml-2 sm:mt-0 sm:py-4 md:text-lg"
+                >
+                  Join the club
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
+
+        <div class="bg-primary">
+          <div class="container flex flex-col justify-between py-6 sm:flex-row">
+            <p class="text-center font-body text-white md:text-left">
+              © Copyright 2022. All right reserved, ATOM.
+            </p>
+            <div
+              class="flex items-center justify-center pt-5 sm:justify-start sm:pt-0"
+            >
+              <a href="/">
+                <i
+                  class="bx bxl-facebook-square text-2xl text-white hover:text-yellow"
+                ></i>
+              </a>
+              <a href="/" class="pl-4">
+                <i
+                  class="bx bxl-twitter text-2xl text-white hover:text-yellow"
+                ></i>
+              </a>
+              <a href="/" class="pl-4">
+                <i
+                  class="bx bxl-dribbble text-2xl text-white hover:text-yellow"
+                ></i>
+              </a>
+              <a href="/" class="pl-4">
+                <i
+                  class="bx bxl-linkedin text-2xl text-white hover:text-yellow"
+                ></i>
+              </a>
+              <a href="/" class="pl-4">
+                <i
+                  class="bx bxl-instagram text-2xl text-white hover:text-yellow"
+                ></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </body>
 </template>
 
 <style>
-.bg-dots-darker {
-    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
-}
-@media (prefers-color-scheme: dark) {
-    .dark\:bg-dots-lighter {
-        background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
-    }
-}
 </style>
