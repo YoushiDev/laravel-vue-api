@@ -29,8 +29,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-
     Route::get('/agents',[UsersController::class,'getAgents'])->name('agents.index');
+    Route::post('/store/user',[UsersController::class,'storeUser'])->name('agents.store');
+
+
+
     Route::get('/developers',[UsersController::class,'getDevelopers'])->name('developers.index');
     Route::get('/managers',[UsersController::class,'getManagers'])->name('managers.index');
     Route::get('/qas',[UsersController::class,'getQas'])->name('qas.index');
